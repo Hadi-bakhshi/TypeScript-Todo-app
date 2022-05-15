@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
+import { TodoTypeAndValue } from "../../components/AddNewTodo";
 
 interface Todo {
   id: number;
   text: string;
   isCompleted: boolean;
   date: string;
-  todoType?: string;
+  todoType: string;
 }
 
 interface TodosSliceState {
@@ -31,14 +32,18 @@ export const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state: { todos: any[] }, action: PayloadAction<string>) => {
+    addTodo: (
+      state: { todos: any[] },
+      action: PayloadAction<TodoTypeAndValue[]>
+    ) => {
       state.todos = [
         ...state.todos,
         {
           id: Math.random(),
-          text: action.payload,
+          text: action.payload[0].valueOfInput,
           isCompleted: false,
           date: getTheDate(),
+          todoType: action.payload[1].valueOfSelect,
         },
       ];
     },

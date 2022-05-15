@@ -2,11 +2,14 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../features/todos/todoSlice";
 
-interface AddTodoProps {
-}
+interface AddTodoProps {}
 interface Options {
   value: string;
   text: string;
+}
+export interface TodoTypeAndValue {
+  valueOfInput?: string;
+  valueOfSelect?: string;
 }
 
 const options: Options[] = [
@@ -20,21 +23,23 @@ const options: Options[] = [
 
 const AddNewTodo: React.FC<AddTodoProps> = () => {
   // state
-  const [inputValue, setInputValue] = useState("");
-  const dispatch = useDispatch()
+  const [inputValue, setInputValue] = useState<TodoTypeAndValue[]>([]);
+  const dispatch = useDispatch();
 
-  // Handlers
+  //  Handlers
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const value = e.target.value;
+    setInputValue([...inputValue, { valueOfInput: value }]);
+  };
+  const selectChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setInputValue([...inputValue, { valueOfSelect: value }]);
   };
 
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
-    if (inputValue === "") {
-      alert("Please add your task");
-    }
-    dispatch(addTodo(inputValue))
-    setInputValue("");
+    dispatch(addTodo(inputValue));
+    setInputValue([]);
   };
 
   return (
@@ -44,17 +49,19 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
         <input
           type="text"
           id="todo-text"
-          value={inputValue}
+          // value={inputValue}
           name="text"
           onChange={changeHandler}
         />
         <label htmlFor="todoType">نوع تسک</label>
-        <select id="todoType">
+        <select id="todoType" onChange={selectChangeHandler}>
           <option selected disabled>
             گزینه ها
           </option>
-          {options.map((item ,index) => (
-            <option key={index} value={item.value}>{item.text}</option>
+          {options.map((item, index) => (
+            <option key={index} value={item.value}>
+              {item.text}
+            </option>
           ))}
         </select>
         <button
