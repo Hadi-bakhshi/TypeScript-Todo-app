@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { removeTodo, selectTodos } from "../features/todos/todoSlice";
+import { removeTodo, selectTodos,toggleTodo } from "../features/todos/todoSlice";
 
 interface TodoListProps {}
 
@@ -16,7 +16,9 @@ const TodoList: React.FC<TodoListProps> = () => {
           <li key={todo.id}>
             <p>{todo.text}</p>
             <span>
-              <input type="checkbox" name="taskcheck" value="" />
+              <input type="checkbox" name="taskcheck" value="" 
+              onClick={() => dispatch(toggleTodo(todo.id))}
+              />
             </span>
             <button onClick={() => dispatch(removeTodo(todo.id))}>
               پاک کردن

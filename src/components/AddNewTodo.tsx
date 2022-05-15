@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { addTodo } from "../features/todos/todoSlice";
 
 interface AddTodoProps {
-
-  selectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 interface Options {
   value: string;
@@ -20,9 +18,7 @@ const options: Options[] = [
   { value: "غذا خوردن", text: "غذا خوردن" },
 ];
 
-const AddNewTodo: React.FC<AddTodoProps> = ({
-  selectChange,
-}) => {
+const AddNewTodo: React.FC<AddTodoProps> = () => {
   // state
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch()
@@ -53,7 +49,7 @@ const AddNewTodo: React.FC<AddTodoProps> = ({
           onChange={changeHandler}
         />
         <label htmlFor="todoType">نوع تسک</label>
-        <select id="todoType" onChange={(e) => selectChange(e)}>
+        <select id="todoType">
           <option selected disabled>
             گزینه ها
           </option>
