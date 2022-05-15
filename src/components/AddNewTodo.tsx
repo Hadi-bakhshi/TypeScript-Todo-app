@@ -24,12 +24,12 @@ const options: Options[] = [
 const AddNewTodo: React.FC<AddTodoProps> = () => {
   // state
   const [inputValue, setInputValue] = useState<TodoTypeAndValue[]>([]);
+
   const dispatch = useDispatch();
 
   //  Handlers
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue([...inputValue, { valueOfInput: value }]);
+    setInputValue([...inputValue, { valueOfInput: e.target.value }]);
   };
   const selectChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -43,29 +43,48 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
   };
 
   return (
-    <section className="flex flex-col justify-center items-center">
+    <section className="flex flex-col justify-center items-center p-4 bg-violet-300 rounded-lg shadow-md">
       <form className="flex flex-col" onSubmit={todoSubmitHandler}>
-        <label htmlFor="todo-text">تسک خود را وارد کنید</label>
+        <label htmlFor="todo-text" className="font-mono font-bold pb-2">
+          تسک خود را وارد کنید
+        </label>
         <input
           type="text"
           id="todo-text"
           // value={inputValue}
           name="text"
           onChange={changeHandler}
+          className="bg-white rounded-md shadow-md p-1"
+          placeholder="  اینحا بنویسید ..."
         />
-        <label htmlFor="todoType">نوع تسک</label>
-        <select id="todoType" onChange={selectChangeHandler}>
-          <option selected disabled>
+        <label htmlFor="todoType" className="font-mono font-bold py-2">
+          نوع تسک
+        </label>
+        <select
+          className="bg-white rounded-md shadow-md p-1 mb-4 cursor-pointer"
+          id="todoType"
+          onChange={selectChangeHandler}
+        >
+          <option
+            className="rounded-md font-mono bg-gray-50 overflow-hidden"
+            selected
+            disabled
+          >
             گزینه ها
           </option>
           {options.map((item, index) => (
-            <option key={index} value={item.value}>
+            <option
+              className="rounded-md font-mono bg-gray-100 cursor-pointer overflow-hidden"
+              key={index}
+              value={item.value}
+            >
               {item.text}
             </option>
           ))}
         </select>
+
         <button
-          className="bg-indigo-500 text-white p-2 mt-2 rounded-lg"
+          className="fixed inset-x-1/3 bottom-2  bg-violet-600 text-white p-2 mt-2 rounded-lg"
           type="submit"
         >
           اضافه کردن

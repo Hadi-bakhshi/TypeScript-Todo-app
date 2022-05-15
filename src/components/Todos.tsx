@@ -8,7 +8,7 @@ const Todos: React.FC = () => {
 
 
   return (
-    <main className="container bg-red-100 p-2">
+    <main className="container p-2">
       <AddNewTodo />
       <TodoList />
     </main>

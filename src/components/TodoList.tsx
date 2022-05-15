@@ -10,7 +10,7 @@ const TodoList: React.FC<TodoListProps> = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="bg-red-100 grid grid-cols-4 gap-4">
       <ul>
         {items.map((todo) => (
           <li key={todo.id}>
