@@ -1,7 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../features/todos/todoSlice";
 
 interface AddTodoProps {
-  addTodoHandler: (todotext: string) => void;
+
   selectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 interface Options {
@@ -19,11 +21,11 @@ const options: Options[] = [
 ];
 
 const AddNewTodo: React.FC<AddTodoProps> = ({
-  addTodoHandler,
   selectChange,
 }) => {
   // state
   const [inputValue, setInputValue] = useState("");
+  const dispatch = useDispatch()
 
   // Handlers
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +37,7 @@ const AddNewTodo: React.FC<AddTodoProps> = ({
     if (inputValue === "") {
       alert("Please add your task");
     }
-    addTodoHandler(inputValue);
+    dispatch(addTodo(inputValue))
     setInputValue("");
   };
 
@@ -55,8 +57,8 @@ const AddNewTodo: React.FC<AddTodoProps> = ({
           <option selected disabled>
             گزینه ها
           </option>
-          {options.map((item) => (
-            <option value={item.value}>{item.text}</option>
+          {options.map((item ,index) => (
+            <option key={index} value={item.value}>{item.text}</option>
           ))}
         </select>
         <button

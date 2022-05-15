@@ -1,12 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { removeTodo, selectTodos } from "../features/todos/todoSlice";
 
-interface TodoListProps {
-  items: { id: string; text: string; isCompleted: boolean }[];
-  onComplete: (id: string) => void;
-  onDelete: (id: string) => void;
-}
+interface TodoListProps {}
 
-const TodoList: React.FC<TodoListProps> = ({ items, onComplete, onDelete }) => {
+const TodoList: React.FC<TodoListProps> = () => {
+  const items = useSelector(selectTodos);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <ul>
@@ -14,14 +16,11 @@ const TodoList: React.FC<TodoListProps> = ({ items, onComplete, onDelete }) => {
           <li key={todo.id}>
             <p>{todo.text}</p>
             <span>
-              <input
-                type="checkbox"
-                name="taskcheck"
-                value=""
-                onClick={() => onComplete(todo.id)}
-              />
+              <input type="checkbox" name="taskcheck" value="" />
             </span>
-            <button onClick={() => onDelete(todo.id)}>پاک کردن</button>
+            <button onClick={() => dispatch(removeTodo(todo.id))}>
+              پاک کردن
+            </button>
           </li>
         ))}
       </ul>
