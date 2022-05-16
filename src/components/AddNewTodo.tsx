@@ -101,7 +101,7 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
         </select>
 
         <button
-          className="fixed inset-x-1/3 md:static bottom-1  bg-purple-600 text-white font-semibold p-4 md:p-2 mt-2 rounded-lg hover:ring hover:right-1 hover:ring-offset-1 hover:ring-purple-400"
+          className="fixed inset-x-1/3 md:static bottom-1  bg-purple-600 text-white font-semibold p-4 md:p-2 mt-2 rounded-lg "
           type="submit"
         >
           اضافه کردن
