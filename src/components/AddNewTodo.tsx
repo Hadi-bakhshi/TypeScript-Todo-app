@@ -2,11 +2,16 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTodo } from "../features/todos/todoSlice";
 
+// App props types
 interface AddTodoProps {}
+
+// select options types
 interface Options {
   value: string;
   text: string;
 }
+
+//state type
 export interface TodoTypeAndValue {
   valueOfInput?: string;
   valueOfSelect?: string;
@@ -24,22 +29,34 @@ const options: Options[] = [
 const AddNewTodo: React.FC<AddTodoProps> = () => {
   // state
   const [inputValue, setInputValue] = useState<TodoTypeAndValue[]>([]);
-
+  const [valueSetter, setValueSetter] = useState('')
+  const [selectValueReset, setSelectValueReset] = useState('')
+  // action dispathcer
   const dispatch = useDispatch();
 
   //  Handlers
+
+  // input change handler
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue([...inputValue, { valueOfInput: e.target.value }]);
+    setInputValue([{ valueOfInput: e.target.value }]);
+    setValueSetter(e.target.value)
   };
+  // select change handler
   const selectChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setInputValue([...inputValue, { valueOfSelect: value }]);
+    setSelectValueReset(e.target.value)
   };
-
+  //from submit handler
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
+    if(inputValue.length === 1) {
+      alert('لطفا نوع تسک را مشخص کنید')
+    }
     dispatch(addTodo(inputValue));
     setInputValue([]);
+    setValueSetter('')
+    setSelectValueReset('')
   };
 
   return (
@@ -51,8 +68,8 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
         <input
           type="text"
           id="todo-text"
-          // value={inputValue}
           name="text"
+          value={valueSetter}
           onChange={changeHandler}
           className="bg-white rounded-md shadow-md p-1"
           placeholder="  اینحا بنویسید ..."
@@ -63,18 +80,19 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
         <select
           className="bg-white rounded-md shadow-md p-1 mb-4 cursor-pointer"
           id="todoType"
+          value={selectValueReset}
           onChange={selectChangeHandler}
         >
           <option
             className="rounded-md font-mono bg-gray-50 overflow-hidden"
-            selected
+            defaultValue='else'
             disabled
           >
             گزینه ها
           </option>
           {options.map((item, index) => (
             <option
-              className="rounded-md font-mono bg-gray-100 cursor-pointer overflow-hidden"
+              className="rounded-md bg-gray-100 cursor-pointer"
               key={index}
               value={item.value}
             >
@@ -84,7 +102,7 @@ const AddNewTodo: React.FC<AddTodoProps> = () => {
         </select>
 
         <button
-          className="fixed inset-x-1/3 bottom-2  bg-violet-600 text-white p-2 mt-2 rounded-lg"
+          className="fixed inset-x-1/3 bottom-2  bg-violet-600 text-white p-4 mt-2 rounded-lg"
           type="submit"
         >
           اضافه کردن

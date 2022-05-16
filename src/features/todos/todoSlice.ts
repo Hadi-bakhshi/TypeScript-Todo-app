@@ -7,7 +7,7 @@ interface Todo {
   text: string;
   isCompleted: boolean;
   date: string;
-  todoType: string;
+  todoType?: string;
 }
 
 interface TodosSliceState {
